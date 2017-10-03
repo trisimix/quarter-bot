@@ -21,7 +21,7 @@
 
 
 import json
-import random
+import quantumrandom
 
 import tweepy
 
@@ -37,8 +37,15 @@ class StreamListener(tweepy.StreamListener):
         screen_name = tweet['user']['screen_name']
         me = screen_name == bot.SCREEN_NAME
         retweet = 'retweeted_status' in tweet
+
         if not me and not retweet:
-            side = random.choice(bot.SIDES)
+            #declare TRNG lines 42-47
+            flip = int(quantumrandom.randint(0,100))
+            if flip >= 50:
+                flip = 1
+            else:
+                flip = 0
+            side = bot.SIDES[flip]
             hashtag = random.choice(bot.HASHTAGS)
             e = random.choice(emoji.EMOJI.values())
 
